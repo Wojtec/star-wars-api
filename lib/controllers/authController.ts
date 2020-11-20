@@ -1,11 +1,37 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
+import UserModel, { userInterface } from "../models/userModel";
+import { Utils } from "../utils/index";
+
+import jwt from "jsonwebtoken";
 
 export class AuthController {
-  public singin(req: Request, res: Response) {
-    res.send("singin");
-  }
+  public utils: Utils = new Utils();
+  //Register
+  public signIn = async (req: Request, res: Response, next: NextFunction) => {
+    //Try catch block
+    try {
+      //Set variables from request body
+      const { email, password }: { email: string; password: string } = req.body;
+      //Set request body in model database
+      const user: userInterface = new UserModel({
+        email: email,
+        password: password,
+        hero: await this.utils.getHero(),
+      });
+      //Save model in database
+      // const savedUser: object = await user.save();
+      res.send(user);
+    } catch (err) {
+      next(err);
+    }
+  };
 
-  public singup(req: Request, res: Response) {
-    res.send("singup");
+  //Login
+  public signUp(req: Request, res: Response, next: NextFunction) {
+    try {
+      res.send("signup");
+    } catch (err) {
+      next(err);
+    }
   }
 }
