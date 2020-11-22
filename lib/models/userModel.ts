@@ -1,14 +1,18 @@
 import { Schema, model, Document } from "mongoose";
+import bcrypt from "bcrypt";
 
 export interface userInterface extends Document {
   email: string;
   password: string;
-  hero: number;
+  hero: object;
+  encryptPassword(password: string): Promise<string>;
+  validatePassword(password: string): Promise<boolean>;
 }
 
 const userSchema = new Schema({
   email: {
     type: String,
+    unique: true,
     required: true,
   },
   password: {
@@ -16,9 +20,25 @@ const userSchema = new Schema({
     required: true,
   },
   hero: {
-    type: Number,
+    type: Object,
     required: true,
   },
 });
+
+//Encrypt password
+userSchema.methods.encryptPassword = async (
+  password: string
+): Promise<string> => {
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  return await bcrypt.hash(password, salt);
+};
+
+//Validate password
+userSchema.methods.validatePassword = async function (
+  password: string
+): Promise<boolean> {
+  return await bcrypt.compare(password, this.password);
+};
 
 export default model<userInterface>("User", userSchema);

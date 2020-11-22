@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-interface People {
+interface peopleInterface {
   count: number;
   next: string;
   previous: null;
@@ -8,15 +8,36 @@ interface People {
 }
 
 export class Fetch {
-  public peopleURL: string = "https://swapi.dev/api/";
+  private URL: string = "https://swapi.dev/api/";
 
-  public getPeople = async () => {
+  public getPeople = async (): Promise<peopleInterface | undefined> => {
     try {
-      const response: any = await fetch(`${this.peopleURL}people`, {
+      const response: any = await fetch(`${this.URL}people`, {
         method: "GET",
       });
-      const content: People = await response.json();
-      return content;
+      return await response.json();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  public findHero = async (id: number) => {
+    try {
+      const response: any = await fetch(`${this.URL}people/${id}`, {
+        method: "GET",
+      });
+      return await response.json();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  public getResources = async (url: string) => {
+    try {
+      const response: any = await fetch(url, {
+        method: "GET",
+      });
+      return await response.json();
     } catch (err) {
       console.log(err);
     }

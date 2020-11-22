@@ -4,14 +4,15 @@ export class Utils {
   private fetch: Fetch = new Fetch();
   private minPeople: number = 1;
 
-  public getHero = async () => {
+  //Get hero number
+  public getHero = async (): Promise<object> => {
     const people: any = await this.fetch.getPeople();
     const { count }: { count: number } = people;
-    console.log(count);
-    const setHero = Math.floor(
+    const heroId: number = Math.floor(
       Math.random() * (count - this.minPeople) + this.minPeople
     );
-    console.log(setHero);
+    const setHero = await this.fetch.findHero(heroId);
+
     return setHero;
   };
 }

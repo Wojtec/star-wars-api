@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+import config from "./config";
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -7,15 +10,14 @@ import { Routes } from "./routes";
 class App {
   public app: express.Application = express();
 
-  private Routes: Routes = new Routes();
-
-  private uri: string =
-    "mongodb+srv://star:star@cluster0.0gkej.mongodb.net/star?retryWrites=true&w=majority";
+  private routes: Routes = new Routes();
 
   constructor() {
     this.config();
     this.mongoSetup();
-    this.Routes.auth(this.app);
+    //Routes
+    this.routes.auth(this.app);
+    this.routes.user(this.app);
   }
 
   private config(): void {
@@ -25,7 +27,11 @@ class App {
 
   private mongoSetup(): void {
     mongoose
-      .connect(this.uri, { useNewUrlParser: true, useUnifiedTopology: true })
+      .connect(config.DB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+      })
       .then(() => console.log("Database is connected!"))
       .catch((err) => console.log(err));
   }
