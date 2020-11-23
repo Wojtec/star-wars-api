@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import config from "./config";
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
@@ -18,6 +18,7 @@ class App {
     //Routes
     this.routes.auth(this.app);
     this.routes.user(this.app);
+    this.errorHandler();
   }
 
   private config(): void {
@@ -25,6 +26,16 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: true }));
   }
 
+  //Error handler
+  private errorHandler() {
+    this.app.use(
+      (err: Error, req: Request, res: Response, next: NextFunction) => {
+        res.status(500).send({ error: err.message });
+      }
+    );
+  }
+
+  //MongoDB connection
   private mongoSetup(): void {
     mongoose
       .connect(config.DB_URI, {
@@ -36,4 +47,5 @@ class App {
       .catch((err) => console.log(err));
   }
 }
+
 export default new App().app;

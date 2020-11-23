@@ -45,5 +45,30 @@ export class Routes {
       this.tokenValidation.verifyToken,
       this.userController.getPlanets
     );
+    app.get(
+      `${this.apiRoute}films/:id`,
+      this.tokenValidation.verifyToken,
+      this.userController.getElemementsById
+    );
+    app.get(
+      `${this.apiRoute}species/:id`,
+      this.tokenValidation.verifyToken,
+      this.userController.getElemementsById
+    );
+    app.get(
+      `${this.apiRoute}vehicles/:id`,
+      this.tokenValidation.verifyToken,
+      this.userController.getElemementsById
+    );
+    app.get(
+      `${this.apiRoute}starships/:id`,
+      this.tokenValidation.verifyToken,
+      this.userController.getElemementsById
+    );
+    app.get(
+      `${this.apiRoute}planets/:id`,
+      this.tokenValidation.verifyToken,
+      this.userController.getElemementsById
+    );
   }
 }
