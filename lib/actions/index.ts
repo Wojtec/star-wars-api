@@ -4,6 +4,9 @@ import config from "../config"; // Import config with process environments.
 /**
  *
  * ACTIONS FOR API INTEGRATION
+ * getPeople
+ * findHero
+ * getResources
  *
  * */
 

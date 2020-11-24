@@ -3,6 +3,7 @@
  * ENV CONFIG
  *
  **/
+
 // Config file for the process environment if the project will be in production all OR operators with strings will be deleted.
 export = {
   secret: process.env.TOKEN_SECRET || "cookie",
