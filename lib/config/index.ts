@@ -11,5 +11,5 @@ export = {
   DB_URI:
     process.env.DB_URI ||
     "mongodb+srv://star:star@cluster0.0gkej.mongodb.net/star?retryWrites=true&w=majority",
-  API_PATH: "https://swapi.dev/api/",
+  API_PATH: process.env.API_PATH || "http://swapi.dev/api/",
 };

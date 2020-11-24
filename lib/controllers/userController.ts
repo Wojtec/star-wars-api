@@ -65,7 +65,7 @@ export class UserController {
       // Get resource name from request path.
       let resourcesName = path.split("/").slice(3, 4).join("/");
       // Create API path with resourse name and id from request params.
-      const API_PATH = config.API_PATH + resourcesName + "/" + id;
+      const API_PATH = config.API_PATH + resourcesName + "/" + id + "/";
       // Get hero from database use cache mechanism for checking if data is cached if it doesn't cache new data.
       const getHero = (await this.cache.get(userId, async () => {
         // Find user from database.
